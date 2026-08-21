@@ -125,7 +125,7 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .code-title { font-size: 13px; color: var(--text2); font-family: "JetBrains Mono", monospace; }
 .back-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 14px; }
 .back-btn:hover { border-color: var(--blue); color: var(--blue); }
-.code-scroll { max-height: 62vh; overflow-y: auto; padding: 32px 36px; font-family: 'JetBrains Mono', 'Fira Code', 'PingFang SC', 'Microsoft YaHei', monospace; font-size: 16px; line-height: 2.0; font-variant-ligatures: none; position: relative; scroll-behavior: smooth; letter-spacing: 0.2px; }
+.code-scroll { max-height: 62vh; overflow-y: auto; overflow-x: hidden; padding: 24px 28px; font-family: 'JetBrains Mono', 'Fira Code', 'PingFang SC', 'Microsoft YaHei', monospace; font-size: 15px; line-height: 1.9; white-space: pre-wrap; word-break: break-all; font-variant-ligatures: none; position: relative; scroll-behavior: smooth; letter-spacing: 0.2px; }
 .code-scroll::-webkit-scrollbar { width: 6px; }
 .code-scroll::-webkit-scrollbar-track { background: transparent; }
 .code-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -254,7 +254,7 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
           <div class="stat"><span class="label">WPM</span><span class="value" id="statWpm">0</span></div>
           <div class="stat"><span class="label">CPM</span><span class="value" id="statCpm">0</span></div>
           <div class="stat"><span class="label">准确率</span><span class="value" id="statAcc">100%</span></div>
-          <div class="stat"><span class="label">时间</span><span class="value" id="statTime">0s</span></div>
+          <div class="stat"><span class="label">时间</span><span class="value" id="practiceTime">0s</span></div>
           <div class="stat"><span class="label">错误</span><span class="value" id="statErr">0</span></div>
           <div class="progress-track" style="margin-top:4px"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
         </div>
@@ -4778,7 +4778,7 @@ function updateStats() {
   const wpm = minutes > 0 ? Math.round(correct / 5 / minutes) : 0;
   const acc = typed > 0 ? Math.round((correct / typed) * 100) : 100;
   const progress = totalTypable > 0 ? (typed / totalTypable) * 100 : 0;
-  document.getElementById('statTime').textContent = Math.round(elapsed) + 's';
+  document.getElementById('practiceTime').textContent = Math.round(elapsed) + 's';
   document.getElementById('statCpm').textContent = cpm;
   document.getElementById('statWpm').textContent = wpm;
   document.getElementById('statAcc').textContent = acc + '%';
