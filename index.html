@@ -4479,9 +4479,10 @@ async function loadRepo() {
     const data = await res.json();
     const exts = ['.rs','.c','.h','.py','.js','.ts','.go','.java','.cpp','.hpp','.html','.css','.json','.md','.toml','.yaml','.yml','.sh','.rb','.php','.swift','.kt'];
     repoFiles = (data.tree || []).filter(f => f.type === 'blob' && exts.some(ext => f.path.endsWith(ext)));
-    saveRepoHistory(url);
+    saveRepoHistory(url, document.getElementById('repoNote').value.trim());
     document.getElementById('fileSearchBox').style.display = 'block';
     document.getElementById('fileSearch').value = '';
+    document.getElementById('repoNote').value = '';
     expandedFolders.clear();
     renderFileTree(owner, repo);
   } catch(e) { content.innerHTML = `<div class="error-msg">加载失败: ${e.message}</div>`; }
