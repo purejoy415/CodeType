@@ -38,9 +38,9 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .sidebar-right { width: 190px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; position: sticky; top: 70px; }
 .main-content { flex: 1; min-width: 0; }
 .tabs { display: inline-flex; gap: 4px; margin-bottom: 0; background: var(--bg3); border-radius: 24px; padding: 4px; }
-.tab { padding: 8px 22px; cursor: pointer; border: 1px solid transparent; background: none; color: var(--text); font-size: 14px; border-radius: 20px; transition: all 0.2s; text-shadow: 0 1px 2px rgba(0,0,0,0.3); }
+.tab { padding: 8px 22px; cursor: pointer; border: 1px solid transparent; background: none; color: var(--text2); font-size: 14px; border-radius: 20px; transition: all 0.2s; }
 .tab:hover { opacity: 0.8; }
-.tab.active { border-color: var(--blue); color: #fff; font-weight: 500; background: var(--blue); box-shadow: 0 0 12px rgba(122,162,247,0.4); }
+.tab.active { border-color: var(--blue); color: var(--blue); font-weight: 500; background: transparent; }
 .github-input { display: flex; gap: 8px; margin-bottom: 16px; }
 .github-input input { flex: 1; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; }
 .github-input input:focus { outline: none; border-color: var(--blue); }
@@ -126,7 +126,7 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .search-box { margin-bottom: 12px; }
 .search-box input { width: 100%; padding: 8px 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; }
 .search-box input:focus { outline: none; border-color: var(--blue); }
-.practice-layout { display: flex; gap: 14px; align-items: flex-start; }
+.practice-layout { display: flex; gap: 24px; align-items: flex-start; }
 .practice-sidebar { width: 190px; flex-shrink: 0; position: sticky; top: 70px; display: flex; flex-direction: column; gap: 12px; }
 .practice-main { flex: 1; min-width: 0; }
 .stats-bar { display: flex; flex-direction: column; gap: 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
@@ -227,13 +227,16 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
         <div class="sidebar-left">
           <div class="stats-section" id="statsPanel">
             <div class="stats-title">打字数据</div>
-            <div class="stat-item"><span class="stat-label">练习次数</span><span class="stat-value" id="statCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">今日练习</span><span class="stat-value accent" id="statToday">0</span></div>
+            <div class="stat-item"><span class="stat-label">本周练习</span><span class="stat-value accent" id="statWeek">0</span></div>
+            <div class="stat-item"><span class="stat-label">总练习次数</span><span class="stat-value" id="statCount">0</span></div>
             <div class="stat-item"><span class="stat-label">总字符数</span><span class="stat-value" id="statChars">0</span></div>
             <div class="stat-item"><span class="stat-label">总用时</span><span class="stat-value" id="statTime">0分</span></div>
             <div class="stat-item"><span class="stat-label">平均CPM</span><span class="stat-value accent" id="statAvgCpm">0</span></div>
             <div class="stat-item"><span class="stat-label">平均准确率</span><span class="stat-value accent" id="statAvgAcc">0%</span></div>
             <div class="stat-item"><span class="stat-label">最高CPM</span><span class="stat-value accent" id="statMaxCpm">0</span></div>
             <div class="stat-item"><span class="stat-label">总错误数</span><span class="stat-value" id="statErrors">0</span></div>
+            <div class="stat-item"><span class="stat-label">连续天数</span><span class="stat-value accent" id="statStreak">0天</span></div>
           </div>
         </div>
         <div class="main-content">
@@ -4380,7 +4383,19 @@ function renderProgress() {
 
 function renderStats() {
   const history = getHistory();
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const weekStart = todayStart - (now.getDay() === 0 ? 6 : now.getDay() - 1) * 86400000;
+  const todayCount = history.filter(h => h.date >= todayStart).length;
+  const weekCount = history.filter(h => h.date >= weekStart).length;
+  // 连续天数计算
+  const daySet = new Set(history.map(h => { const d = new Date(h.date); return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate(); }));
+  let streak = 0;
+  let checkDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  while (daySet.has(checkDate.getFullYear()+'-'+checkDate.getMonth()+'-'+checkDate.getDate())) { streak++; checkDate.setDate(checkDate.getDate() - 1); }
   if (history.length === 0) {
+    document.getElementById('statToday').textContent = '0';
+    document.getElementById('statWeek').textContent = '0';
     document.getElementById('statCount').textContent = '0';
     document.getElementById('statChars').textContent = '0';
     document.getElementById('statTime').textContent = '0分';
@@ -4388,6 +4403,7 @@ function renderStats() {
     document.getElementById('statAvgAcc').textContent = '0%';
     document.getElementById('statMaxCpm').textContent = '0';
     document.getElementById('statErrors').textContent = '0';
+    document.getElementById('statStreak').textContent = '0天';
     return;
   }
   const count = history.length;
@@ -4398,6 +4414,8 @@ function renderStats() {
   const maxCpm = Math.max(...history.map(h => h.cpm));
   const totalErrors = history.reduce((s,h) => s + (h.errors || 0), 0);
   const mins = Math.floor(totalTime / 60);
+  document.getElementById('statToday').textContent = todayCount;
+  document.getElementById('statWeek').textContent = weekCount;
   document.getElementById('statCount').textContent = count;
   document.getElementById('statChars').textContent = Math.round(totalChars);
   document.getElementById('statTime').textContent = mins >= 60 ? Math.floor(mins/60)+'时'+(mins%60)+'分' : mins+'分';
@@ -4405,6 +4423,7 @@ function renderStats() {
   document.getElementById('statAvgAcc').textContent = avgAcc + '%';
   document.getElementById('statMaxCpm').textContent = maxCpm;
   document.getElementById('statErrors').textContent = totalErrors;
+  document.getElementById('statStreak').textContent = streak + '天';
 }
 
 function renderSnippets() {
