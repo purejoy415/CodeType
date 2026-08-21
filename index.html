@@ -27,21 +27,26 @@
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
-header { background: rgba(31,32,48,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 10px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-header h1 { font-size: 17px; font-weight: 600; }
+header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
 header h1 span { color: var(--blue); }
-.subtitle { font-size: 12px; color: var(--text2); }
+
 main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 100%; padding-bottom: 320px; }
-.tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-.tab { padding: 10px 20px; cursor: pointer; border: none; background: none; color: var(--text2); font-size: 14px; border-bottom: 2px solid transparent; }
-.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.tab { padding: 10px 24px; cursor: pointer; border: none; background: none; color: var(--text2); font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 500; }
 .github-input { display: flex; gap: 8px; margin-bottom: 16px; }
 .github-input input { flex: 1; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; }
 .github-input input:focus { outline: none; border-color: var(--blue); }
-.btn { padding: 8px 18px; background: var(--blue2); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: background 0.2s; }
-.btn:hover { background: var(--blue); }
-.btn.secondary { background: var(--bg3); color: var(--text); border: 1px solid var(--border); }
-.btn.secondary:hover { background: var(--border); }
+.btn { padding: 7px 16px; background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+.btn:hover { border-color: var(--blue); color: var(--blue); }
+.btn.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+.btn.primary:hover { background: var(--blue2); border-color: var(--blue2); color: #fff; }
+.btn.secondary { background: transparent; color: var(--text); border: 1px solid var(--border); }
+.btn.secondary:hover { border-color: var(--blue); color: var(--blue); }
+.theme-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg3); color: var(--text); cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+.theme-btn:hover { border-color: var(--blue); color: var(--blue); transform: scale(1.05); }
 .history-list { margin-top: 8px; }
 .history-item { padding: 8px 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 4px; cursor: pointer; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
 .history-item:hover { border-color: var(--blue); }
@@ -61,10 +66,10 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .filter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
 .filter-label { font-size: 13px; color: var(--text2); min-width: 40px; }
 .filter-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.filter-tag { padding: 5px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
-.filter-tag:hover { border-color: var(--blue); color: var(--text); }
-.filter-tag.active { background: var(--blue2); color: #fff; border-color: var(--blue2); }
-.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.filter-tag { padding: 5px 14px; border-radius: 4px; font-size: 12px; cursor: pointer; background: transparent; border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
+.filter-tag:hover { border-color: var(--blue); color: var(--blue); }
+.filter-tag.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
 .progress-label { color: var(--text2); }
@@ -81,10 +86,10 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .filter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
 .filter-label { font-size: 13px; color: var(--text2); min-width: 40px; }
 .filter-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.filter-tag { padding: 5px 14px; border-radius: 20px; font-size: 12px; cursor: pointer; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
-.filter-tag:hover { border-color: var(--blue); color: var(--text); }
-.filter-tag.active { background: var(--blue2); color: #fff; border-color: var(--blue2); }
-.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+.filter-tag { padding: 5px 14px; border-radius: 4px; font-size: 12px; cursor: pointer; background: transparent; border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
+.filter-tag:hover { border-color: var(--blue); color: var(--blue); }
+.filter-tag.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
 .progress-label { color: var(--text2); }
@@ -154,17 +159,19 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .char.correct.t-code { color: var(--text); }
 .hidden-input { position: absolute; left: -9999px; opacity: 0; }
 .actions { display: flex; gap: 8px; margin-bottom: 16px; }
-.keyboard-wrapper { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(31,32,48,0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding: 10px; z-index: 50; transition: transform 0.3s; }
-.keyboard-wrapper.collapsed { transform: translateY(calc(100% - 28px)); }
-.keyboard-toggle { position: absolute; top: -28px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-bottom: none; padding: 4px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 12px; color: var(--text2); }
-.keyboard { display: flex; flex-direction: column; gap: 4px; max-width: 860px; margin: 0 auto; overflow-x: auto; min-width: 640px; }
-.kb-row { display: flex; gap: 4px; justify-content: center; }
-.key { min-width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 11px; font-family: 'JetBrains Mono', monospace; border: 1px solid var(--border); background: var(--bg3); color: var(--text2); position: relative; transition: all 0.1s; }
-.key.wide { min-width: 56px; } .key.xwide { min-width: 76px; } .key.space { min-width: 180px; }
-.key.active { background: var(--blue); color: #fff; border-color: var(--blue); transform: scale(0.94); box-shadow: 0 0 10px rgba(122,162,247,0.4); }
+.keyboard-wrapper { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2); border-top: 1px solid var(--border); padding: 12px 16px 14px; z-index: 50; transition: transform 0.3s; }
+.keyboard-wrapper.collapsed { transform: translateY(calc(100% - 26px)); }
+.keyboard-toggle { position: absolute; top: -26px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-bottom: none; padding: 3px 14px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 11px; color: var(--text2); transition: color 0.2s; }
+.keyboard-toggle:hover { color: var(--blue); }
+.keyboard { display: flex; flex-direction: column; gap: 5px; max-width: 820px; margin: 0 auto; overflow-x: auto; min-width: 600px; }
+.kb-row { display: flex; gap: 5px; justify-content: center; }
+.key { min-width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 13px; font-weight: 500; font-family: 'JetBrains Mono', monospace; border: 1px solid var(--border); background: var(--bg3); color: var(--text); transition: all 0.1s; }
+.key.wide { min-width: 56px; } .key.xwide { min-width: 76px; } .key.space { min-width: 240px; }
+.key.active { background: var(--blue); color: #fff; border-color: var(--blue); transform: scale(0.95); }
 .key.shift-active { background: var(--yellow); color: #1a1b26; border-color: var(--yellow); }
-.key .finger-label { position: absolute; bottom: 1px; right: 3px; font-size: 7px; opacity: 0.4; }
-.f-lp { background: rgba(88,166,255,0.08); } .f-lr { background: rgba(63,185,80,0.08); } .f-lm { background: rgba(210,153,34,0.08); } .f-li { background: rgba(188,140,255,0.08); } .f-ri { background: rgba(219,109,40,0.08); } .f-rm { background: rgba(210,153,34,0.08); } .f-rr { background: rgba(63,185,80,0.08); } .f-rp { background: rgba(88,166,255,0.08); } .f-thumb { background: rgba(248,81,73,0.08); }
+
+.f-lp { background: #1a2a3a; color: #74c0fc; } .f-lr { background: #1a2e1a; color: #69db7c; } .f-lm { background: #2e2a1a; color: #ffd43b; } .f-li { background: #2a1a2e; color: #da77f2; } .f-ri { background: #2e1f1a; color: #ffa94d; } .f-rm { background: #2e2a1a; color: #ffd43b; } .f-rr { background: #1a2e1a; color: #69db7c; } .f-rp { background: #1a2a3a; color: #74c0fc; } .f-thumb { background: #2e1a1a; color: #ff8787; }
+[data-theme="paper"] .f-lp { background: #e7f5ff; color: #1864ab; } [data-theme="paper"] .f-lr { background: #f0fff4; color: #2b8a3e; } [data-theme="paper"] .f-lm { background: #fff9db; color: #e67700; } [data-theme="paper"] .f-li { background: #f8f0fc; color: #862e9c; } [data-theme="paper"] .f-ri { background: #fff4e6; color: #d9480f; } [data-theme="paper"] .f-rm { background: #fff9db; color: #e67700; } [data-theme="paper"] .f-rr { background: #f0fff4; color: #2b8a3e; } [data-theme="paper"] .f-rp { background: #e7f5ff; color: #1864ab; } [data-theme="paper"] .f-thumb { background: #fff5f5; color: #c92a2a; }
 .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; }
 .modal-overlay.show { display: flex; }
 .modal { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 32px; max-width: 400px; width: 90%; text-align: center; }
@@ -180,13 +187,10 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 </head>
 <body>
 <header>
-  <div>
-    <h1><span>CodeType</span> - 算法代码打字练习</h1>
-    <div class="subtitle">经典手撕代码 · 注释自动跳过 · 语法高亮 · 支持 GitHub 仓库导入</div>
-  </div>
-  <div style="display:flex;gap:8px;align-items:center">
-    <button class="btn secondary theme-toggle" onclick="toggleTheme()" id="themeBtn">🖋️ 墨</button>
-    <button class="btn secondary" onclick="goHome()">返回选择</button>
+  <h1><span>CodeType</span></h1>
+  <div style="display:flex;gap:10px;align-items:center">
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">墨</button>
+    <button class="btn secondary" onclick="goHome()">返回</button>
   </div>
 </header>
 <main>
@@ -4220,13 +4224,13 @@ function toggleTheme() {
   const next = current === 'ink' ? 'paper' : 'ink';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('codetype_theme', next);
-  document.getElementById('themeBtn').textContent = next === 'ink' ? '🖋️ 墨' : '📜 纸';
+  document.getElementById('themeBtn').textContent = next === 'ink' ? '墨' : '纸';
 }
 function initTheme() {
   const saved = localStorage.getItem('codetype_theme') || 'ink';
   document.documentElement.setAttribute('data-theme', saved);
   const btn = document.getElementById('themeBtn');
-  if (btn) btn.textContent = saved === 'ink' ? '🖋️ 墨' : '📜 纸';
+  if (btn) btn.textContent = saved === 'ink' ? '墨' : '纸';
 }
 
 function init() {
@@ -4350,7 +4354,7 @@ function renderSnippets() {
 }
 
 function renderKeyboard() {
-  document.getElementById('keyboard').innerHTML = KB_LAYOUT.map(row => `<div class="kb-row">${row.map(key => `<div class="key f-${key.f} ${key.w||''}" data-key="${key.k.toLowerCase()}">${key.k}<span class="finger-label">${FINGER_NAMES[key.f]}</span></div>`).join('')}</div>`).join('');
+  document.getElementById('keyboard').innerHTML = KB_LAYOUT.map(row => `<div class="kb-row">${row.map(key => `<div class="key f-${key.f} ${key.w||''}" data-key="${key.k.toLowerCase()}">${key.k}</div>`).join('')}</div>`).join('');
 }
 
 function highlightKey(char) {
