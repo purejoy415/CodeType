@@ -4836,14 +4836,27 @@ function goHome() {
 function toggleKeyboard() {
   keyboardCollapsed = !keyboardCollapsed;
   const kb = document.getElementById('keyboardWrapper');
-  kb.classList.toggle('collapsed', keyboardCollapsed);
+  const kbPos = JSON.parse(localStorage.getItem('codetype_kb_pos') || 'null');
   if (keyboardCollapsed) {
-    // 收起时清除内联transform，让CSS的collapsed动画生效
+    // 收起：先回到默认底部居中位置，再收起只露按钮
+    kb.style.transition = 'left 0.3s ease, top 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+    kb.style.left = '';
+    kb.style.top = '';
+    kb.style.bottom = '';
     kb.style.transform = '';
+    // 等回到默认位置后再添加collapsed
+    setTimeout(() => { kb.classList.add('collapsed'); }, 50);
   } else {
-    // 展开时如果已拖动过位置，保持transform: none
-    const kbPos = JSON.parse(localStorage.getItem('codetype_kb_pos') || 'null');
-    if (kbPos) kb.style.transform = 'none';
+    // 展开：先移除collapsed，再恢复拖动位置
+    kb.classList.remove('collapsed');
+    if (kbPos) {
+      setTimeout(() => {
+        kb.style.left = kbPos.left + 'px';
+        kb.style.top = kbPos.top + 'px';
+        kb.style.bottom = 'auto';
+        kb.style.transform = 'none';
+      }, 50);
+    }
   }
   if (document.getElementById('practiceView').style.display !== 'none') {
     setTimeout(focusInput, 300);
