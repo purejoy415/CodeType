@@ -168,7 +168,7 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .char.correct.t-code { color: var(--text); }
 .hidden-input { position: absolute; left: -9999px; opacity: 0; }
 .actions { display: flex; gap: 8px; margin-bottom: 16px; }
-.keyboard-wrapper { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--bg2); border-radius: 12px; padding: 14px 18px 16px; z-index: 50; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 32px rgba(0,0,0,0.25); border: 1px solid var(--border); }
+.keyboard-wrapper { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--bg2); border-radius: 12px; padding: 14px 18px 16px; z-index: 50; transition: left 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), top 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), bottom 0.45s cubic-bezier(0.25, 0.1, 0.25, 1); box-shadow: 0 8px 32px rgba(0,0,0,0.25); border: 1px solid var(--border); }
 .keyboard-wrapper.collapsed { transform: translateY(calc(100% - 32px)); }
 .keyboard-toggle { position: absolute; top: -24px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--border); border-bottom: none; padding: 3px 12px; border-radius: 6px 6px 0 0; cursor: grab; font-size: 11px; color: var(--text2); transition: color 0.2s; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); user-select: none; }
 .keyboard-toggle:hover { color: var(--blue); }
@@ -241,8 +241,8 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
     </div>
     <div id="githubTab" style="display:none">
       <div class="github-input">
-        <input type="text" id="repoInput" placeholder="输入 GitHub 仓库地址，如 https://github.com/user/repo">
-        <input type="text" id="repoNote" placeholder="备注（可选）" style="width:140px">
+        <input type="text" id="repoInput" placeholder="输入 GitHub 仓库地址，如 https://github.com/user/repo" onkeydown="if(event.key==='Enter')event.preventDefault()">
+        <input type="text" id="repoNote" placeholder="备注（可选）" style="width:140px" onkeydown="if(event.key==='Enter')event.preventDefault()">
         <button class="btn" onclick="loadRepo()">加载仓库</button>
       </div>
       <div class="history-list" id="repoHistory"></div>
@@ -4839,7 +4839,7 @@ function toggleKeyboard() {
   const kbPos = JSON.parse(localStorage.getItem('codetype_kb_pos') || 'null');
   if (keyboardCollapsed) {
     // 收起：先回到默认底部居中位置，再收起只露按钮
-    kb.style.transition = 'left 0.3s ease, top 0.3s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+    kb.style.transition = 'left 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), top 0.45s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), bottom 0.45s cubic-bezier(0.25, 0.1, 0.25, 1)';
     kb.style.left = '';
     kb.style.top = '';
     kb.style.bottom = '';
