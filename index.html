@@ -32,10 +32,10 @@ header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
 header h1 span { color: var(--blue); }
 
 main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 100%; padding-bottom: 320px; }
-.tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-.tab { padding: 10px 24px; cursor: pointer; border: none; background: none; color: var(--text2); font-size: 14px; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.tabs { display: inline-flex; gap: 4px; margin-bottom: 20px; background: var(--bg3); border-radius: 10px; padding: 4px; }
+.tab { padding: 8px 22px; cursor: pointer; border: none; background: none; color: var(--text2); font-size: 14px; border-radius: 7px; transition: all 0.2s; }
 .tab:hover { color: var(--text); }
-.tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 500; }
+.tab.active { background: var(--blue); color: #fff; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 .github-input { display: flex; gap: 8px; margin-bottom: 16px; }
 .github-input input { flex: 1; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 14px; }
 .github-input input:focus { outline: none; border-color: var(--blue); }
@@ -62,13 +62,13 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .lang-python { background: #3572A5; color: #fff; }
 .snippet-card h3 { font-size: 14px; margin-bottom: 4px; }
 .snippet-card .meta { font-size: 12px; color: var(--text2); }
-.filter-section { margin-bottom: 16px; }
-.filter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-.filter-label { font-size: 13px; color: var(--text2); min-width: 40px; }
-.filter-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.filter-tag { padding: 5px 14px; border-radius: 4px; font-size: 12px; cursor: pointer; background: transparent; border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
-.filter-tag:hover { border-color: var(--blue); color: var(--blue); }
-.filter-tag.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.filter-section { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+.filter-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.filter-label { font-size: 13px; color: var(--text2); min-width: 36px; }
+.filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 8px; padding: 3px; flex-wrap: wrap; }
+.filter-tag { padding: 5px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; background: transparent; border: none; color: var(--text2); transition: all 0.2s; }
+.filter-tag:hover { color: var(--text); }
+.filter-tag.active { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
 .progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
@@ -82,13 +82,13 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .diff-badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; border: 1px solid; font-weight: 600; }
 .done-badge { margin-left: auto; color: var(--green); font-weight: 700; font-size: 16px; }
 .best-info { font-size: 11px; color: var(--yellow); margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
-.filter-section { margin-bottom: 16px; }
-.filter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-.filter-label { font-size: 13px; color: var(--text2); min-width: 40px; }
-.filter-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.filter-tag { padding: 5px 14px; border-radius: 4px; font-size: 12px; cursor: pointer; background: transparent; border: 1px solid var(--border); color: var(--text2); transition: all 0.2s; }
-.filter-tag:hover { border-color: var(--blue); color: var(--blue); }
-.filter-tag.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.filter-section { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+.filter-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.filter-label { font-size: 13px; color: var(--text2); min-width: 36px; }
+.filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 8px; padding: 3px; flex-wrap: wrap; }
+.filter-tag { padding: 5px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; background: transparent; border: none; color: var(--text2); transition: all 0.2s; }
+.filter-tag:hover { color: var(--text); }
+.filter-tag.active { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
 .progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
