@@ -4598,6 +4598,17 @@ function saveRepoHistory(url, note) {
   h = h.slice(0, 5);
   localStorage.setItem('codetype_repo_history', JSON.stringify(h)); loadRepoHistory();
 }
+function selectRepo(index) {
+  const h = JSON.parse(localStorage.getItem('codetype_repo_history') || '[]');
+  const item = h[index];
+  if (!item) return;
+  const url = typeof item === 'string' ? item : item.url;
+  const note = typeof item === 'string' ? '' : (item.note || '');
+  document.getElementById('repoInput').value = url;
+  document.getElementById('repoNote').value = note;
+  loadRepo();
+}
+
 function loadRepoHistory() {
   const h = JSON.parse(localStorage.getItem('codetype_repo_history') || '[]');
   const el = document.getElementById('repoHistory');
@@ -4605,9 +4616,13 @@ function loadRepoHistory() {
   el.innerHTML = '<div style="font-size:12px;color:var(--text2);margin-bottom:4px">最近仓库：</div>' + h.map((item, i) => {
     const url = typeof item === 'string' ? item : item.url;
     const note = typeof item === 'string' ? '' : (item.note || '');
-    return `<div class="history-item" onclick="document.getElementById('repoInput').value='${url}';loadRepo()"><span>${url}</span>${note?`<span style="color:var(--blue);font-size:11px;margin:0 8px">${note}</span>`:''}<span style="color:var(--red)" onclick="event.stopPropagation();removeRepo(${i})">✕</span></div>`;
+    return `<div class="history-item" onclick="selectRepo(${i})"><span>${url}</span>${note?`<span style="color:var(--blue);font-size:11px;margin:0 8px">${note}</span>`:''}<span style="color:var(--red)" onclick="event.stopPropagation();removeRepo(${i})">✕</span></div>`;
   }).join('');
-  if (h.length > 0) document.getElementById('repoInput').value = typeof h[0] === 'string' ? h[0] : h[0].url;
+  if (h.length > 0) {
+    const first = h[0];
+    document.getElementById('repoInput').value = typeof first === 'string' ? first : first.url;
+    document.getElementById('repoNote').value = typeof first === 'string' ? '' : (first.note || '');
+  }
 }
 function removeRepo(i) { let h = JSON.parse(localStorage.getItem('codetype_repo_history') || '[]'); h.splice(i, 1); localStorage.setItem('codetype_repo_history', JSON.stringify(h)); loadRepoHistory(); }
 
