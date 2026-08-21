@@ -27,7 +27,8 @@
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
-header { background: var(--bg); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+header { background: var(--bg); padding: 12px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); gap: 20px; }
+header .tabs { margin-bottom: 0; }
 header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
 header h1 span { color: var(--blue); }
 
@@ -47,6 +48,8 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .btn.secondary:hover { border-color: var(--blue); color: var(--blue); }
 .theme-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg3); color: var(--text); cursor: pointer; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
 .theme-btn:hover { border-color: var(--blue); color: var(--blue); transform: scale(1.05); }
+.github-link { color: var(--text2); display: flex; align-items: center; transition: color 0.2s; }
+.github-link:hover { color: var(--text); }
 .history-list { margin-top: 8px; }
 .history-item { padding: 8px 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; margin-bottom: 4px; cursor: pointer; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
 .history-item:hover { border-color: var(--blue); }
@@ -188,14 +191,19 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 <body>
 <header>
   <h1><span>CodeType</span></h1>
-  <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">墨</button>
+  <div class="tabs" id="mainTabs">
+    <button class="tab active" onclick="switchTab('examples',this)">算法题库</button>
+    <button class="tab" onclick="switchTab('github',this)">GitHub 仓库</button>
+  </div>
+  <div style="display:flex;gap:12px;align-items:center">
+    <a href="https://github.com/purejoy415" target="_blank" class="github-link" title="作者 GitHub">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+    </a>
+    <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">墨</button>
+  </div>
 </header>
 <main>
   <div id="selectView">
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('examples',this)">算法题库</button>
-      <button class="tab" onclick="switchTab('github',this)">GitHub 仓库</button>
-    </div>
     <div id="examplesTab">
       <div class="filter-section">
         <div class="filter-row"><span class="filter-label">分类:</span><div class="filter-tags" id="categoryFilter"></div></div>
