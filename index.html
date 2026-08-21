@@ -77,6 +77,8 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .filter-tag:hover { opacity: 0.8; }
 .filter-tag.active { border-color: var(--blue); color: var(--blue); background: transparent; }
 
+.progress-section { background: transparent; border: none; padding: 0; }
+.progress-section::before { content: "学习任务"; display: block; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
 .progress-label { color: var(--text2); }
