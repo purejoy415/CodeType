@@ -4596,7 +4596,6 @@ function startPractice(id) {
 
 function startPracticeWithCode(code, title, lang, snippetId = -1) {
   currentSnippetId = snippetId;
-  document.getElementById("mainTabs").style.display = "none";
   const pp = document.getElementById("practiceProgress");
   if (pp) { const prog = getProgress(); const pct = prog.total > 0 ? (prog.done/prog.total*100) : 0; pp.innerHTML = `<div class="progress-overview"><div class="progress-item"><span class="progress-label">总进度</span><span class="progress-value">${prog.done}/${prog.total}</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div></div>`; }
   currentTokens = tokenize(code, lang);
