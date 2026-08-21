@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeType - 多语言代码打字练习</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --bg2: #161b22;
+  --bg3: #21262d;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --text2: #8b949e;
+  --green: #3fb950;
+  --red: #f85149;
+  --yellow: #d29922;
+  --blue: #58a6ff;
+  --purple: #bc8cff;
+  --orange: #db6d28;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+header h1 { font-size: 18px; font-weight: 600; }
+header h1 span { color: var(--blue); }
+.subtitle { font-size: 12px; color: var(--text2); }
+main { flex: 1; padding: 20px; max-width: 1200px; margin: 0 auto; width: 100%; padding-bottom: 320px; }
+
+/* 选择界面 */
+.select-view { display: block; }
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+.tab {
+  padding: 10px 20px; cursor: pointer; border: none; background: none;
+  color: var(--text2); font-size: 14px; border-bottom: 2px solid transparent;
+}
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.github-input {
+  display: flex; gap: 8px; margin-bottom: 16px;
+}
+.github-input input {
+  flex: 1; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); font-size: 14px;
+}
+.github-input input:focus { outline: none; border-color: var(--blue); }
+.btn {
+  padding: 10px 20px; background: var(--blue); color: #fff; border: none;
+  border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;
+}
+.btn:hover { background: #388bfd; }
+.btn.secondary { background: var(--bg3); color: var(--text); }
+.btn.secondary:hover { background: var(--border); }
+.btn.danger { background: var(--red); }
+.history-list { margin-top: 8px; }
+.history-item {
+  padding: 8px 12px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 6px; margin-bottom: 4px; cursor: pointer; font-size: 13px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.history-item:hover { border-color: var(--blue); }
+.lang-filter { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.lang-tag {
+  padding: 4px 12px; border-radius: 20px; font-size: 12px; cursor: pointer;
+  background: var(--bg3); border: 1px solid var(--border); color: var(--text2);
+}
+.lang-tag.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.snippet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.snippet-card {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; cursor: pointer; transition: border-color 0.2s;
+}
+.snippet-card:hover { border-color: var(--blue); }
+.snippet-card .lang-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px;
+  font-weight: 600; margin-bottom: 8px;
+}
+.lang-rust { background: #dea584; color: #000; }
+.lang-python { background: #3572A5; color: #fff; }
+.lang-javascript { background: #f1e05a; color: #000; }
+.lang-go { background: #00ADD8; color: #fff; }
+.lang-java { background: #b07219; color: #fff; }
+.lang-cpp { background: #f34b7d; color: #fff; }
+.snippet-card h3 { font-size: 14px; margin-bottom: 4px; }
+.snippet-card .meta { font-size: 12px; color: var(--text2); }
+.file-tree { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; max-height: 500px; overflow-y: auto; }
+.file-item {
+  padding: 8px 16px; cursor: pointer; font-size: 13px; display: flex;
+  align-items: center; gap: 8px; border-bottom: 1px solid var(--border);
+}
+.file-item:hover { background: var(--bg3); }
+.file-item .icon { font-size: 16px; }
+.folder-item { font-weight: 500; }
+.error-msg {
+  background: rgba(248,81,73,0.1); border: 1px solid var(--red); color: var(--red);
+  padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; font-size: 13px;
+}
+.loading { text-align: center; padding: 40px; color: var(--text2); }
+
+/* 练习界面 */
+.practice-view { display: none; }
+.stats-bar {
+  display: flex; gap: 24px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 20px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.stat { text-align: center; }
+.stat .label { font-size: 11px; color: var(--text2); text-transform: uppercase; }
+.stat .value { font-size: 20px; font-weight: 700; color: var(--blue); font-family: 'JetBrains Mono', monospace; }
+.progress-bar { flex: 1; min-width: 100px; display: flex; align-items: center; }
+.progress-track { flex: 1; height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--green); transition: width 0.3s; }
+.code-display {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+  padding: 20px; font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 15px; line-height: 1.8; white-space: pre-wrap; word-break: break-all;
+  overflow-x: auto; margin-bottom: 12px; min-height: 200px;
+}
+.char { position: relative; }
+.char.correct { color: var(--green); }
+.char.incorrect { color: var(--red); background: rgba(248,81,73,0.2); border-radius: 2px; }
+.char.current { background: rgba(88,166,255,0.3); border-radius: 2px; animation: blink 1s infinite; }
+.char.space { color: var(--text2); }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hidden-input { position: absolute; left: -9999px; opacity: 0; }
+.actions { display: flex; gap: 8px; margin-bottom: 16px; }
+
+/* 虚拟键盘 */
+.keyboard-wrapper {
+  position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg2);
+  border-top: 1px solid var(--border); padding: 12px; z-index: 50;
+  transition: transform 0.3s;
+}
+.keyboard-wrapper.collapsed { transform: translateY(calc(100% - 28px)); }
+.keyboard-toggle {
+  position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+  background: var(--bg2); border: 1px solid var(--border); border-bottom: none;
+  padding: 4px 16px; border-radius: 6px 6px 0 0; cursor: pointer; font-size: 12px;
+  color: var(--text2);
+}
+.keyboard {
+  display: flex; flex-direction: column; gap: 4px; max-width: 900px; margin: 0 auto;
+  overflow-x: auto; min-width: 640px;
+}
+.kb-row { display: flex; gap: 4px; justify-content: center; }
+.key {
+  min-width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  border-radius: 4px; font-size: 12px; font-family: monospace; border: 1px solid var(--border);
+  background: var(--bg3); color: var(--text); position: relative; transition: all 0.1s;
+}
+.key.wide { min-width: 60px; }
+.key.xwide { min-width: 80px; }
+.key.space { min-width: 200px; }
+.key.active { background: var(--blue); color: #fff; border-color: var(--blue); transform: scale(0.95); box-shadow: 0 0 12px rgba(88,166,255,0.5); }
+.key.shift-active { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.key .finger-label { position: absolute; bottom: 1px; right: 2px; font-size: 8px; opacity: 0.6; }
+/* 手指分区颜色 */
+.f-lp { background: rgba(88,166,255,0.15); }
+.f-lr { background: rgba(63,185,80,0.15); }
+.f-lm { background: rgba(210,153,34,0.15); }
+.f-li { background: rgba(188,140,255,0.15); }
+.f-ri { background: rgba(219,109,40,0.15); }
+.f-rm { background: rgba(210,153,34,0.15); }
+.f-rr { background: rgba(63,185,80,0.15); }
+.f-rp { background: rgba(88,166,255,0.15); }
+.f-thumb { background: rgba(248,81,73,0.15); }
+
+/* 完成弹窗 */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+  z-index: 200; align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+  padding: 32px; max-width: 400px; width: 90%; text-align: center;
+}
+.modal h2 { margin-bottom: 20px; color: var(--green); }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.result-item .label { font-size: 12px; color: var(--text2); }
+.result-item .value { font-size: 24px; font-weight: 700; color: var(--blue); }
+.new-record { color: var(--yellow); font-size: 14px; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1><span>CodeType</span> - 多语言代码打字练习</h1>
+    <div class="subtitle">通过打字练习编程思维 · 支持 GitHub 仓库导入 · 覆盖 Rust/Python/JS/Go/Java/C++</div>
+  </div>
+  <button class="btn secondary" onclick="goHome()">返回选择</button>
+</header>
+
+<main>
+  <!-- 选择界面 -->
+  <div id="selectView" class="select-view">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('examples')">示例片段</button>
+      <button class="tab" onclick="switchTab('github')">GitHub 仓库</button>
+    </div>
+
+    <div id="examplesTab">
+      <div class="lang-filter" id="langFilter"></div>
+      <div class="snippet-grid" id="snippetGrid"></div>
+    </div>
+
+    <div id="githubTab" style="display:none">
+      <div class="github-input">
+        <input type="text" id="repoInput" placeholder="输入 GitHub 仓库地址，如 https://github.com/user/repo">
+        <button class="btn" onclick="loadRepo()">加载仓库</button>
+      </div>
+      <div class="history-list" id="repoHistory"></div>
+      <div id="repoContent"></div>
+    </div>
+  </div>
+
+  <!-- 练习界面 -->
+  <div id="practiceView" class="practice-view">
+    <div class="stats-bar">
+      <div class="stat"><div class="label">用时</div><div class="value" id="statTime">0s</div></div>
+      <div class="stat"><div class="label">CPM</div><div class="value" id="statCpm">0</div></div>
+      <div class="stat"><div class="label">WPM</div><div class="value" id="statWpm">0</div></div>
+      <div class="stat"><div class="label">准确率</div><div class="value" id="statAcc">100%</div></div>
+      <div class="stat"><div class="label">错误</div><div class="value" id="statErr">0</div></div>
+      <div class="progress-bar"><div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
+    </div>
+    <div id="codeTitle" style="margin-bottom:8px;font-size:13px;color:var(--text2)"></div>
+    <div class="code-display" id="codeDisplay" onclick="focusInput()"></div>
+    <textarea class="hidden-input" id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+    <div class="actions">
+      <button class="btn secondary" onclick="resetPractice()">重置</button>
+      <button class="btn secondary" onclick="skipChar()">跳过当前字符</button>
+      <button class="btn secondary" onclick="goHome()">选择其他片段</button>
+    </div>
+  </div>
+</main>
+
+<!-- 虚拟键盘 -->
+<div class="keyboard-wrapper" id="keyboardWrapper">
+  <div class="keyboard-toggle" onclick="toggleKeyboard()">⌨ 键盘</div>
+  <div class="keyboard" id="keyboard"></div>
+</div>
+
+<!-- 完成弹窗 -->
+<div class="modal-overlay" id="resultModal">
+  <div class="modal">
+    <h2>🎉 练习完成！</h2>
+    <div class="new-record" id="newRecord" style="display:none">🏆 新纪录！</div>
+    <div class="result-grid">
+      <div class="result-item"><div class="label">总用时</div><div class="value" id="resTime">0s</div></div>
+      <div class="result-item"><div class="label">CPM</div><div class="value" id="resCpm">0</div></div>
+      <div class="result-item"><div class="label">WPM</div><div class="value" id="resWpm">0</div></div>
+      <div class="result-item"><div class="label">准确率</div><div class="value" id="resAcc">100%</div></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button class="btn" onclick="resetPractice();closeModal()">再来一次</button>
+      <button class="btn secondary" onclick="closeModal();goHome()">选择其他</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== 代码片段库 ====================
+const SNIPPETS = [
+  { lang: 'rust', name: 'Hello World', difficulty: '入门', code: `fn main() {
+    println!("Hello, world!");
+}` },
+  { lang: 'rust', name: '所有权与借用', difficulty: '进阶', code: `fn main() {
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1);
+    println!("'{}' 的长度是 {}", s1, len);
+}
+
+fn calculate_length(s: &String) -> usize {
+    s.len()
+}` },
+  { lang: 'rust', name: '结构体与 Trait', difficulty: '进阶', code: `trait Summary {
+    fn summarize(&self) -> String;
+}
+
+struct Article {
+    title: String,
+    author: String,
+}
+
+impl Summary for Article {
+    fn summarize(&self) -> String {
+        format!("{} by {}", self.title, self.author)
+    }
+}` },
+  { lang: 'rust', name: '错误处理', difficulty: '高级', code: `use std::fs::File;
+use std::io::Read;
+
+fn read_file(path: &str) -> Result<String, std::io::Error> {
+    let mut file = File::open(path)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+    Ok(contents)
+}` },
+  { lang: 'python', name: '列表推导式', difficulty: '入门', code: `def fibonacci(n):
+    fib = [0, 1]
+    for i in range(2, n):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib
+
+numbers = fibonacci(10)
+squared = [x**2 for x in numbers if x % 2 == 0]
+print(f"斐波那契: {numbers}")
+print(f"偶数平方: {squared}")` },
+  { lang: 'python', name: '类与继承', difficulty: '进阶', code: `class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        raise NotImplementedError
+
+class Dog(Animal):
+    def speak(self):
+        return f"{self.name} says Woof!"
+
+dog = Dog("Buddy")
+print(dog.speak())` },
+  { lang: 'javascript', name: '箭头函数与数组', difficulty: '入门', code: `const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+const sum = numbers.reduce((acc, n) => acc + n, 0);
+const evens = numbers.filter(n => n % 2 === 0);
+console.log({ doubled, sum, evens });` },
+  { lang: 'javascript', name: '异步 Promise', difficulty: '进阶', code: `async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+}` },
+  { lang: 'go', name: 'Goroutine', difficulty: '进阶', code: `package main
+
+import "fmt"
+
+func worker(id int, jobs <-chan int, results chan<- int) {
+    for j := range jobs {
+        fmt.Printf("worker %d processing job %d\\n", id, j)
+        results <- j * 2
+    }
+}
+
+func main() {
+    jobs := make(chan int, 5)
+    results := make(chan int, 5)
+    for w := 1; w <= 3; w++ {
+        go worker(w, jobs, results)
+    }
+}` },
+  { lang: 'java', name: 'Stream API', difficulty: '进阶', code: `import java.util.*;
+import java.util.stream.*;
+
+public class StreamDemo {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        int sum = numbers.stream()
+            .filter(n -> n % 2 == 0)
+            .mapToInt(n -> n * n)
+            .sum();
+        System.out.println("Sum: " + sum);
+    }
+}` },
+  { lang: 'cpp', name: '智能指针与STL', difficulty: '高级', code: `#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <memory>
+
+int main() {
+    auto ptr = std::make_unique<int>(42);
+    std::vector<int> nums = {5, 2, 8, 1, 9};
+    std::sort(nums.begin(), nums.end());
+    for (const auto& n : nums) {
+        std::cout << n << " ";
+    }
+    std::cout << "\\nValue: " << *ptr << std::endl;
+    return 0;
+}` },
+];
+
+const LANGS = ['all', 'rust', 'python', 'javascript', 'go', 'java', 'cpp'];
+const LANG_NAMES = { all: '全部', rust: 'Rust', python: 'Python', javascript: 'JavaScript', go: 'Go', java: 'Java', cpp: 'C++' };
+
+// ==================== 键盘布局 ====================
+const KB_LAYOUT = [
+  [{k:'`',f:'lp'},{k:'1',f:'lp'},{k:'2',f:'lr'},{k:'3',f:'lm'},{k:'4',f:'li'},{k:'5',f:'li'},{k:'6',f:'ri'},{k:'7',f:'ri'},{k:'8',f:'rm'},{k:'9',f:'rr'},{k:'0',f:'rp'},{k:'-',f:'rp'},{k:'=',f:'rp'},{k:'Backspace',f:'rp',w:'wide'}],
+  [{k:'Tab',f:'lp',w:'wide'},{k:'Q',f:'lp'},{k:'W',f:'lr'},{k:'E',f:'lm'},{k:'R',f:'li'},{k:'T',f:'li'},{k:'Y',f:'ri'},{k:'U',f:'ri'},{k:'I',f:'rm'},{k:'O',f:'rr'},{k:'P',f:'rp'},{k:'[',f:'rp'},{k:']',f:'rp'},{k:'\\\\',f:'rp'}],
+  [{k:'Caps',f:'lp',w:'wide'},{k:'A',f:'lp'},{k:'S',f:'lr'},{k:'D',f:'lm'},{k:'F',f:'li'},{k:'G',f:'li'},{k:'H',f:'ri'},{k:'J',f:'ri'},{k:'K',f:'rm'},{k:'L',f:'rr'},{k:';',f:'rp'},{k:"'",f:'rp'},{k:'Enter',f:'rp',w:'wide'}],
+  [{k:'Shift',f:'lp',w:'xwide'},{k:'Z',f:'lr'},{k:'X',f:'lm'},{k:'C',f:'li'},{k:'V',f:'li'},{k:'B',f:'ri'},{k:'N',f:'ri'},{k:'M',f:'rm'},{k:',',f:'rr'},{k:'.',f:'rr'},{k:'/',f:'rp'},{k:'Shift',f:'rp',w:'xwide'}],
+  [{k:'Ctrl',f:'lp',w:'wide'},{k:'Alt',f:'lp',w:'wide'},{k:'Space',f:'thumb',w:'space'},{k:'Alt',f:'rp',w:'wide'},{k:'Ctrl',f:'rp',w:'wide'}],
+];
+
+const FINGER_NAMES = { lp:'左小', lr:'左无', lm:'左中', li:'左食', ri:'右食', rm:'右中', rr:'右无', rp:'右小', thumb:'拇指' };
+
+// ==================== 状态 ====================
+let currentCode = '';
+let currentTitle = '';
+let currentLang = '';
+let currentPos = 0;
+let errors = 0;
+let startTime = null;
+let timerInterval = null;
+let currentFilter = 'all';
+let keyboardCollapsed = false;
+
+// ==================== 初始化 ====================
+function init() {
+  renderLangFilter();
+  renderSnippets();
+  renderKeyboard();
+  loadRepoHistory();
+  document.getElementById('hiddenInput').addEventListener('input', handleInput);
+  document.getElementById('hiddenInput').addEventListener('keydown', handleKeyDown);
+}
+
+function renderLangFilter() {
+  const el = document.getElementById('langFilter');
+  el.innerHTML = LANGS.map(l =>
+    `<div class="lang-tag ${l===currentFilter?'active':''}" onclick="setLangFilter('${l}')">${LANG_NAMES[l]}</div>`
+  ).join('');
+}
+
+function setLangFilter(l) {
+  currentFilter = l;
+  renderLangFilter();
+  renderSnippets();
+}
+
+function renderSnippets() {
+  const filtered = currentFilter === 'all' ? SNIPPETS : SNIPPETS.filter(s => s.lang === currentFilter);
+  document.getElementById('snippetGrid').innerHTML = filtered.map((s, i) => {
+    const idx = SNIPPETS.indexOf(s);
+    const lines = s.code.split('\n').length;
+    const chars = s.code.length;
+    return `<div class="snippet-card" onclick="startPractice(${idx})">
+      <span class="lang-badge lang-${s.lang}">${s.lang.toUpperCase()}</span>
+      <h3>${s.name}</h3>
+      <div class="meta">难度: ${s.difficulty} · ${lines}行 · ${chars}字符</div>
+    </div>`;
+  }).join('');
+}
+
+function renderKeyboard() {
+  const kb = document.getElementById('keyboard');
+  kb.innerHTML = KB_LAYOUT.map(row =>
+    `<div class="kb-row">${row.map(key =>
+      `<div class="key f-${key.f} ${key.w||''}" data-key="${key.k.toLowerCase()}">
+        ${key.k}<span class="finger-label">${FINGER_NAMES[key.f]}</span>
+      </div>`
+    ).join('')}</div>`
+  ).join('');
+}
+
+function highlightKey(char) {
+  document.querySelectorAll('.key').forEach(k => k.classList.remove('active','shift-active'));
+  if (!char) return;
+  const needsShift = char !== char.toLowerCase() && char !== char.toUpperCase() || (char >= 'A' && char <= 'Z') || '~!@#$%^&*()_+{}|:"<>?'.includes(char);
+  const lower = char.toLowerCase();
+  const keyMap = { ' ':'space', '\n':'enter', '\t':'tab' };
+  const search = keyMap[char] || lower;
+  document.querySelectorAll('.key').forEach(k => {
+    const kk = k.dataset.key;
+    if (kk === search) k.classList.add('active');
+    if (needsShift && kk === 'shift') k.classList.add('shift-active');
+  });
+}
+
+// ==================== Tab 切换 ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('examplesTab').style.display = tab === 'examples' ? 'block' : 'none';
+  document.getElementById('githubTab').style.display = tab === 'github' ? 'block' : 'none';
+}
+
+// ==================== GitHub 仓库 ====================
+async function loadRepo() {
+  const url = document.getElementById('repoInput').value.trim();
+  const content = document.getElementById('repoContent');
+  if (!url) { content.innerHTML = '<div class="error-msg">请输入仓库地址</div>'; return; }
+
+  const match = url.match(/github\.com\/([^\/]+)\/([^\/\s]+?)(?:\.git)?\/?$/);
+  if (!match) { content.innerHTML = '<div class="error-msg">无效的 GitHub 地址，格式如 https://github.com/user/repo</div>'; return; }
+
+  const owner = match[1], repo = match[2];
+  content.innerHTML = '<div class="loading">正在加载仓库...</div>';
+
+  try {
+    // 获取默认分支
+    let branch = 'main';
+    try {
+      const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+      if (repoRes.ok) {
+        const repoData = await repoRes.json();
+        branch = repoData.default_branch || 'main';
+      }
+    } catch(e) {}
+
+    // 获取文件树
+    const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`);
+    if (!treeRes.ok) {
+      if (treeRes.status === 403) {
+        content.innerHTML = '<div class="error-msg">GitHub API 访问频率受限，请稍后再试，或使用示例片段练习</div>';
+        return;
+      }
+      // 回退到 jsdelivr
+      content.innerHTML = '<div class="loading">API 受限，尝试 CDN 加载...</div>';
+      loadRepoViaJsdelivr(owner, repo, branch);
+      return;
+    }
+    const treeData = await treeRes.json();
+    saveRepoHistory(url);
+    renderFileTree(treeData.tree || [], owner, repo, branch);
+  } catch(e) {
+    content.innerHTML = `<div class="error-msg">加载失败: ${e.message}</div>`;
+  }
+}
+
+async function loadRepoViaJsdelivr(owner, repo, branch) {
+  // jsdelivr 没有目录列表 API，这里简化处理，提示用户
+  document.getElementById('repoContent').innerHTML =
+    '<div class="error-msg">GitHub API 受限，建议稍后再试。你也可以直接使用示例片段练习。</div>';
+}
+
+function renderFileTree(tree, owner, repo, branch) {
+  const codeExts = ['.rs','.py','.js','.ts','.go','.java','.c','.cpp','.h','.hpp','.html','.css','.json','.md','.toml','.yaml','.yml','.sh','.rb','.php','.swift','.kt','.rs'];
+  const files = tree.filter(f => f.type === 'blob' && codeExts.some(ext => f.path.endsWith(ext)));
+  const content = document.getElementById('repoContent');
+  if (files.length === 0) {
+    content.innerHTML = '<div class="error-msg">未找到代码文件</div>';
+    return;
+  }
+  content.innerHTML = `<div style="margin-bottom:8px;color:var(--text2);font-size:13px">找到 ${files.length} 个代码文件，点击开始练习：</div>` +
+    files.map(f => `<div class="file-item" onclick="loadGithubFile('${owner}','${repo}','${branch}','${f.path}')">
+      <span class="icon">📄</span><span>${f.path}</span><span style="margin-left:auto;color:var(--text2);font-size:11px">${(f.size/1024).toFixed(1)}KB</span>
+    </div>`).join('');
+}
+
+async function loadGithubFile(owner, repo, branch, path) {
+  try {
+    const res = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const code = (await res.text()).replace(/\r\n/g, '\n');
+    const lang = path.split('.').pop();
+    startPracticeWithCode(code, path, lang);
+  } catch(e) {
+    alert('加载文件失败: ' + e.message);
+  }
+}
+
+function saveRepoHistory(url) {
+  let history = JSON.parse(localStorage.getItem('codetype_repo_history') || '[]');
+  history = history.filter(h => h !== url);
+  history.unshift(url);
+  history = history.slice(0, 3);
+  localStorage.setItem('codetype_repo_history', JSON.stringify(history));
+  loadRepoHistory();
+}
+
+function loadRepoHistory() {
+  const history = JSON.parse(localStorage.getItem('codetype_repo_history') || '[]');
+  const el = document.getElementById('repoHistory');
+  if (history.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = '<div style="font-size:12px;color:var(--text2);margin-bottom:4px">最近仓库：</div>' +
+    history.map((url, i) => `<div class="history-item" onclick="document.getElementById('repoInput').value='${url}';loadRepo()">
+      <span>${url}</span><span style="color:var(--red)" onclick="event.stopPropagation();removeRepo(${i})">✕</span>
+    </div>`).join('');
+  // 自动填充上次的
+  if (history.length > 0) document.getElementById('repoInput').value = history[0];
+}
+
+function removeRepo(i) {
+  let history = JSON.parse(localStorage.getItem('codetype_repo_history') || '[]');
+  history.splice(i, 1);
+  localStorage.setItem('codetype_repo_history', JSON.stringify(history));
+  loadRepoHistory();
+}
+
+// ==================== 练习逻辑 ====================
+function startPractice(idx) {
+  const s = SNIPPETS[idx];
+  startPracticeWithCode(s.code, s.name, s.lang);
+}
+
+function startPracticeWithCode(code, title, lang) {
+  currentCode = code;
+  currentTitle = title;
+  currentLang = lang;
+  currentPos = 0;
+  errors = 0;
+  startTime = null;
+  document.getElementById('selectView').style.display = 'none';
+  document.getElementById('practiceView').style.display = 'block';
+  document.getElementById('codeTitle').innerHTML = `<span class="lang-badge lang-${lang}" style="margin-right:8px">${lang.toUpperCase()}</span>${title}`;
+  renderCode();
+  updateStats();
+  focusInput();
+}
+
+function renderCode() {
+  const display = document.getElementById('codeDisplay');
+  let html = '';
+  for (let i = 0; i < currentCode.length; i++) {
+    const ch = currentCode[i];
+    let cls = 'char';
+    if (i < currentPos) cls += ' correct';
+    else if (i === currentPos) cls += ' current';
+    if (ch === ' ' || ch === '\n') cls += ' space';
+    const displayCh = ch === '\n' ? '↵\n' : (ch === ' ' ? '·' : ch);
+    html += `<span class="${cls}">${displayCh}</span>`;
+  }
+  display.innerHTML = html;
+  highlightKey(currentCode[currentPos]);
+}
+
+function focusInput() {
+  document.getElementById('hiddenInput').focus();
+}
+
+function handleInput(e) {
+  if (!startTime) {
+    startTime = Date.now();
+    timerInterval = setInterval(updateStats, 200);
+  }
+  const input = e.target.value;
+  const expected = currentCode[currentPos];
+  if (input.length > 0) {
+    const typed = input[input.length - 1];
+    if (typed === expected) {
+      currentPos++;
+    } else {
+      errors++;
+      currentPos++; // 仍然前进，标记为错误（简化处理）
+    }
+    e.target.value = '';
+    renderCode();
+    updateStats();
+    if (currentPos >= currentCode.length) {
+      finishPractice();
+    }
+  }
+}
+
+function handleKeyDown(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    if (!startTime) { startTime = Date.now(); timerInterval = setInterval(updateStats, 200); }
+    // Tab 输入4个空格
+    for (let i = 0; i < 4; i++) {
+      if (currentCode[currentPos] === ' ') currentPos++;
+      else { errors++; currentPos++; }
+    }
+    renderCode();
+    updateStats();
+    if (currentPos >= currentCode.length) finishPractice();
+  }
+}
+
+function skipChar() {
+  if (currentPos < currentCode.length) {
+    errors++;
+    currentPos++;
+    renderCode();
+    updateStats();
+    if (currentPos >= currentCode.length) finishPractice();
+  }
+  focusInput();
+}
+
+function resetPractice() {
+  currentPos = 0;
+  errors = 0;
+  startTime = null;
+  if (timerInterval) clearInterval(timerInterval);
+  document.getElementById('hiddenInput').value = '';
+  renderCode();
+  updateStats();
+  focusInput();
+}
+
+function updateStats() {
+  const elapsed = startTime ? (Date.now() - startTime) / 1000 : 0;
+  const minutes = elapsed / 60;
+  const correct = currentPos - errors;
+  const cpm = minutes > 0 ? Math.round(currentPos / minutes) : 0;
+  const wpm = minutes > 0 ? Math.round(correct / 5 / minutes) : 0;
+  const acc = currentPos > 0 ? Math.round((correct / currentPos) * 100) : 100;
+  const progress = (currentPos / currentCode.length) * 100;
+  document.getElementById('statTime').textContent = Math.round(elapsed) + 's';
+  document.getElementById('statCpm').textContent = cpm;
+  document.getElementById('statWpm').textContent = wpm;
+  document.getElementById('statAcc').textContent = acc + '%';
+  document.getElementById('statErr').textContent = errors;
+  document.getElementById('progressFill').style.width = progress + '%';
+}
+
+function finishPractice() {
+  if (timerInterval) clearInterval(timerInterval);
+  const elapsed = (Date.now() - startTime) / 1000;
+  const minutes = elapsed / 60;
+  const correct = currentPos - errors;
+  const cpm = Math.round(currentPos / minutes);
+  const wpm = Math.round(correct / 5 / minutes);
+  const acc = Math.round((correct / currentPos) * 100);
+
+  // 保存最佳成绩
+  const key = 'codetype_best_' + currentTitle;
+  const best = JSON.parse(localStorage.getItem(key) || '{"cpm":0}');
+  const isNewRecord = cpm > best.cpm;
+  if (isNewRecord) localStorage.setItem(key, JSON.stringify({ cpm, wpm, acc }));
+
+  document.getElementById('resTime').textContent = Math.round(elapsed) + 's';
+  document.getElementById('resCpm').textContent = cpm;
+  document.getElementById('resWpm').textContent = wpm;
+  document.getElementById('resAcc').textContent = acc + '%';
+  document.getElementById('newRecord').style.display = isNewRecord ? 'block' : 'none';
+  document.getElementById('resultModal').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('resultModal').classList.remove('show');
+}
+
+function goHome() {
+  if (timerInterval) clearInterval(timerInterval);
+  document.getElementById('practiceView').style.display = 'none';
+  document.getElementById('selectView').style.display = 'block';
+  closeModal();
+}
+
+function toggleKeyboard() {
+  keyboardCollapsed = !keyboardCollapsed;
+  document.getElementById('keyboardWrapper').classList.toggle('collapsed', keyboardCollapsed);
+}
+
+init();
+</script>
+</body>
+</html>
