@@ -71,7 +71,7 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 20px; padding: 3px; flex-wrap: wrap; }
 .filter-tag { padding: 5px 14px; border-radius: 16px; font-size: 12px; cursor: pointer; background: transparent; border: 1px solid transparent; color: var(--text); transition: all 0.2s; }
 .filter-tag:hover { opacity: 0.8; }
-.filter-tag.active { border-color: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.filter-tag.active { border-color: var(--blue); color: #fff; box-shadow: 0 0 12px rgba(122,162,247,0.5), 0 2px 8px rgba(0,0,0,0.2); }
 
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
@@ -91,7 +91,7 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 20px; padding: 3px; flex-wrap: wrap; }
 .filter-tag { padding: 5px 14px; border-radius: 16px; font-size: 12px; cursor: pointer; background: transparent; border: 1px solid transparent; color: var(--text); transition: all 0.2s; }
 .filter-tag:hover { opacity: 0.8; }
-.filter-tag.active { border-color: var(--blue); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.filter-tag.active { border-color: var(--blue); color: #fff; box-shadow: 0 0 12px rgba(122,162,247,0.5), 0 2px 8px rgba(0,0,0,0.2); }
 
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
@@ -123,7 +123,11 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .progress-bar { flex: 1; min-width: 100px; }
 .progress-track { height: 8px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--green); transition: width 0.3s; }
-.code-wrapper { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+.code-wrapper { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.15); position: relative; }
+.code-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+.code-title { font-size: 13px; color: var(--text2); font-family: "JetBrains Mono", monospace; }
+.back-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 14px; }
+.back-btn:hover { border-color: var(--blue); color: var(--blue); }
 .code-scroll { max-height: 62vh; overflow-y: auto; padding: 32px 36px; font-family: 'JetBrains Mono', 'Fira Code', 'PingFang SC', 'Microsoft YaHei', monospace; font-size: 16px; line-height: 2.0; font-variant-ligatures: none; position: relative; scroll-behavior: smooth; letter-spacing: 0.2px; }
 .code-scroll::-webkit-scrollbar { width: 6px; }
 .code-scroll::-webkit-scrollbar-track { background: transparent; }
@@ -243,24 +247,35 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
     </div>
   </div>
   <div id="practiceView" style="display:none">
-    <div class="stats-bar">
-      <div class="stat wpm"><div class="label">WPM</div><div class="value" id="statWpm">0</div></div>
-      <div class="stat"><div class="label">CPM</div><div class="value" id="statCpm">0</div></div>
-      <div class="stat"><div class="label">准确率</div><div class="value" id="statAcc">100%</div></div>
-      <div class="stat"><div class="label">时间</div><div class="value" id="statTime">0s</div></div>
-      <div class="stat"><div class="label">错误</div><div class="value" id="statErr">0</div></div>
-      <div class="progress-bar"><div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
-    </div>
-    <div id="codeTitle" style="margin-bottom:8px;font-size:13px;color:var(--text2)"></div>
-    <div class="hint">💡 注释部分自动跳过，只需输入代码内容</div>
-    <div class="code-wrapper">
-      <div class="code-scroll" id="codeScroll" onclick="focusInput()"></div>
-    </div>
-    <textarea class="hidden-input" id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-    <div class="actions">
-      <button class="btn secondary" onclick="resetPractice()">重置</button>
-      <button class="btn secondary" onclick="skipChar()">跳过当前字符</button>
-      <button class="btn secondary" onclick="goHome()">选择其他</button>
+    <div class="practice-layout">
+      <div class="practice-sidebar">
+        <div class="stats-bar">
+          <div class="stat"><span class="label">WPM</span><span class="value" id="statWpm">0</span></div>
+          <div class="stat"><span class="label">CPM</span><span class="value" id="statCpm">0</span></div>
+          <div class="stat"><span class="label">准确率</span><span class="value" id="statAcc">100%</span></div>
+          <div class="stat"><span class="label">时间</span><span class="value" id="statTime">0s</span></div>
+          <div class="stat"><span class="label">错误</span><span class="value" id="statErr">0</span></div>
+          <div class="progress-track" style="margin-top:4px"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="practice-main">
+        <div class="code-wrapper">
+          <div class="code-header">
+            <span class="code-title" id="codeTitle"></span>
+            <button class="back-btn" onclick="goHome()" title="返回">←</button>
+          </div>
+          <div class="code-scroll" id="codeScroll" onclick="focusInput()"></div>
+        </div>
+        <div class="hint">💡 注释部分自动跳过，只需输入代码内容</div>
+        <textarea class="hidden-input" id="hiddenInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+        <div class="actions">
+          <button class="btn secondary" onclick="resetPractice()">重置</button>
+          <button class="btn secondary" onclick="skipChar()">跳过当前字符</button>
+        </div>
+      </div>
+      <div class="practice-sidebar">
+        <div class="progress-section" id="practiceProgress"></div>
+      </div>
     </div>
   </div>
 </main>
@@ -4567,6 +4582,8 @@ function startPractice(id) {
 
 function startPracticeWithCode(code, title, lang, snippetId = -1) {
   currentSnippetId = snippetId;
+  const pp = document.getElementById("practiceProgress");
+  if (pp) { const prog = getProgress(); const pct = prog.total > 0 ? (prog.done/prog.total*100) : 0; pp.innerHTML = "<div class="progress-overview"><div class="progress-item"><span class="progress-label">总进度</span><span class="progress-value">"+prog.done+"/"+prog.total+"</span></div><div class="progress-track"><div class="progress-fill" style="width:"+pct+"%"></div></div></div>"; }
   currentTokens = tokenize(code, lang);
   flatTokens = currentTokens.flat();
   totalTypable = flatTokens.filter(t => t.typable).length;
