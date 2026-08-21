@@ -33,7 +33,7 @@ header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
 header h1 span { color: var(--blue); }
 
 main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 100%; padding-bottom: 140px; }
-.layout { display: flex; gap: 14px; align-items: flex-start; }
+.layout { display: flex; gap: 32px; align-items: flex-start; }
 .sidebar-left { width: 190px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; position: sticky; top: 70px; }
 .sidebar-right { width: 190px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; position: sticky; top: 70px; }
 .main-content { flex: 1; min-width: 0; }
@@ -126,7 +126,7 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .search-box { margin-bottom: 12px; }
 .search-box input { width: 100%; padding: 8px 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 13px; }
 .search-box input:focus { outline: none; border-color: var(--blue); }
-.practice-layout { display: flex; gap: 24px; align-items: flex-start; }
+.practice-layout { display: flex; gap: 40px; align-items: flex-start; }
 .practice-sidebar { width: 190px; flex-shrink: 0; position: sticky; top: 70px; display: flex; flex-direction: column; gap: 12px; }
 .practice-main { flex: 1; min-width: 0; }
 .stats-bar { display: flex; flex-direction: column; gap: 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
@@ -4615,6 +4615,7 @@ function startPractice(id) {
 
 function startPracticeWithCode(code, title, lang, snippetId = -1) {
   currentSnippetId = snippetId;
+  document.getElementById("mainTabs").style.display = "none";
   const pp = document.getElementById("practiceProgress");
   if (pp) { const prog = getProgress(); const pct = prog.total > 0 ? (prog.done/prog.total*100) : 0; pp.innerHTML = `<div class="progress-overview"><div class="progress-item"><span class="progress-label">总进度</span><span class="progress-value">${prog.done}/${prog.total}</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div></div>`; }
   currentTokens = tokenize(code, lang);
