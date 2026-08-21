@@ -172,8 +172,8 @@ main { flex: 1; padding: 16px 12px; max-width: 1400px; margin: 0 auto; width: 10
 .kb-row { display: flex; gap: 5px; justify-content: center; }
 .key { min-width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 6px; font-size: 13px; font-weight: 500; font-family: 'JetBrains Mono', monospace; border: 1px solid var(--border); background: var(--bg3); color: var(--text); transition: all 0.1s; }
 .key.wide { min-width: 56px; } .key.xwide { min-width: 76px; } .key.space { min-width: 240px; }
-.key.active { background: var(--blue); color: #fff; border-color: var(--blue); transform: scale(0.95); }
-.key.shift-active { background: var(--yellow); color: #1a1b26; border-color: var(--yellow); }
+.key.active { background: var(--blue); color: #fff; border-color: var(--blue); transform: scale(0.92); box-shadow: 0 0 12px rgba(122,162,247,0.6), inset 0 0 8px rgba(255,255,255,0.2); font-weight: 700; }
+.key.shift-active { background: var(--fn); color: #fff; border-color: var(--fn); transform: scale(0.92); box-shadow: 0 0 12px rgba(198,120,221,0.6); font-weight: 700; }
 
 .f-lp { background: #1a2a3a; color: #74c0fc; } .f-lr { background: #1a2e1a; color: #69db7c; } .f-lm { background: #2e2a1a; color: #ffd43b; } .f-li { background: #2a1a2e; color: #da77f2; } .f-ri { background: #2e1f1a; color: #ffa94d; } .f-rm { background: #2e2a1a; color: #ffd43b; } .f-rr { background: #1a2e1a; color: #69db7c; } .f-rp { background: #1a2a3a; color: #74c0fc; } .f-thumb { background: #2e1a1a; color: #ff8787; }
 [data-theme="paper"] .f-lp { background: #e7f5ff; color: #1864ab; } [data-theme="paper"] .f-lr { background: #f0fff4; color: #2b8a3e; } [data-theme="paper"] .f-lm { background: #fff9db; color: #e67700; } [data-theme="paper"] .f-li { background: #f8f0fc; color: #862e9c; } [data-theme="paper"] .f-ri { background: #fff4e6; color: #d9480f; } [data-theme="paper"] .f-rm { background: #fff9db; color: #e67700; } [data-theme="paper"] .f-rr { background: #f0fff4; color: #2b8a3e; } [data-theme="paper"] .f-rp { background: #e7f5ff; color: #1864ab; } [data-theme="paper"] .f-thumb { background: #fff5f5; color: #c92a2a; }
@@ -4831,7 +4831,16 @@ function goHome() {
 }
 function toggleKeyboard() {
   keyboardCollapsed = !keyboardCollapsed;
-  document.getElementById('keyboardWrapper').classList.toggle('collapsed', keyboardCollapsed);
+  const kb = document.getElementById('keyboardWrapper');
+  kb.classList.toggle('collapsed', keyboardCollapsed);
+  if (keyboardCollapsed) {
+    // 收起时清除内联transform，让CSS的collapsed动画生效
+    kb.style.transform = '';
+  } else {
+    // 展开时如果已拖动过位置，保持transform: none
+    const kbPos = JSON.parse(localStorage.getItem('codetype_kb_pos') || 'null');
+    if (kbPos) kb.style.transform = 'none';
+  }
   if (document.getElementById('practiceView').style.display !== 'none') {
     setTimeout(focusInput, 300);
   }
