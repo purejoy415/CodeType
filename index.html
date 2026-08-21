@@ -33,8 +33,8 @@ header h1 { font-size: 16px; font-weight: 600; letter-spacing: 0.5px; }
 header h1 span { color: var(--blue); }
 
 main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 100%; padding-bottom: 320px; }
-.tabs { display: inline-flex; gap: 4px; margin-bottom: 20px; background: var(--bg3); border-radius: 10px; padding: 4px; }
-.tab { padding: 8px 22px; cursor: pointer; border: none; background: none; color: var(--text2); font-size: 14px; border-radius: 7px; transition: all 0.2s; }
+.tabs { display: inline-flex; gap: 4px; margin-bottom: 0; background: var(--bg3); border-radius: 24px; padding: 4px; }
+.tab { padding: 8px 22px; cursor: pointer; border: none; background: none; color: var(--text2); font-size: 14px; border-radius: 20px; transition: all 0.2s; }
 .tab:hover { color: var(--text); }
 .tab.active { background: var(--blue); color: #fff; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 .github-input { display: flex; gap: 8px; margin-bottom: 16px; }
@@ -68,11 +68,17 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .filter-section { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
 .filter-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .filter-label { font-size: 13px; color: var(--text2); min-width: 36px; }
-.filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 8px; padding: 3px; flex-wrap: wrap; }
-.filter-tag { padding: 5px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; background: transparent; border: none; color: var(--text2); transition: all 0.2s; }
+.filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 20px; padding: 3px; flex-wrap: wrap; }
+.filter-tag { padding: 5px 14px; border-radius: 16px; font-size: 12px; cursor: pointer; background: transparent; border: none; color: var(--text2); transition: all 0.2s; }
 .filter-tag:hover { color: var(--text); }
 .filter-tag.active { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
+.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.progress-section .progress-overview > .progress-item:first-child .progress-label { font-weight: 600; color: var(--text); }
+.progress-track { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-bottom: 3px; }
+.progress-track.small { height: 3px; }
+.progress-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px; }
+.progress-label { color: var(--text2); }
+.progress-value { color: var(--text); font-family: "JetBrains Mono", monospace; font-size: 11px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
 .progress-label { color: var(--text2); }
@@ -88,11 +94,17 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 .filter-section { margin-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
 .filter-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .filter-label { font-size: 13px; color: var(--text2); min-width: 36px; }
-.filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 8px; padding: 3px; flex-wrap: wrap; }
-.filter-tag { padding: 5px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; background: transparent; border: none; color: var(--text2); transition: all 0.2s; }
+.filter-tags { display: inline-flex; gap: 4px; background: var(--bg3); border-radius: 20px; padding: 3px; flex-wrap: wrap; }
+.filter-tag { padding: 5px 14px; border-radius: 16px; font-size: 12px; cursor: pointer; background: transparent; border: none; color: var(--text2); transition: all 0.2s; }
 .filter-tag:hover { color: var(--text); }
 .filter-tag.active { background: var(--blue); color: #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
-.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; margin-bottom: 16px; }
+.progress-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.progress-section .progress-overview > .progress-item:first-child .progress-label { font-weight: 600; color: var(--text); }
+.progress-track { height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-bottom: 3px; }
+.progress-track.small { height: 3px; }
+.progress-item { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 2px; }
+.progress-label { color: var(--text2); }
+.progress-value { color: var(--text); font-family: "JetBrains Mono", monospace; font-size: 11px; }
 .progress-overview { display: flex; flex-direction: column; gap: 6px; }
 .progress-item { display: flex; justify-content: space-between; font-size: 13px; }
 .progress-label { color: var(--text2); }
@@ -205,12 +217,28 @@ main { flex: 1; padding: 16px 24px; max-width: 1100px; margin: 0 auto; width: 10
 <main>
   <div id="selectView">
     <div id="examplesTab">
-      <div class="filter-section">
-        <div class="filter-row"><span class="filter-label">分类:</span><div class="filter-tags" id="categoryFilter"></div></div>
-        <div class="filter-row"><span class="filter-label">难度:</span><div class="filter-tags" id="difficultyFilter"></div></div>
+      <div class="layout">
+        <div class="sidebar">
+          <div class="progress-section" id="progressBar"></div>
+          <div class="stats-section" id="statsPanel">
+            <div class="stats-title">打字数据</div>
+            <div class="stat-item"><span class="stat-label">练习次数</span><span class="stat-value" id="statCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">总字符数</span><span class="stat-value" id="statChars">0</span></div>
+            <div class="stat-item"><span class="stat-label">总用时</span><span class="stat-value" id="statTime">0分</span></div>
+            <div class="stat-item"><span class="stat-label">平均CPM</span><span class="stat-value accent" id="statAvgCpm">0</span></div>
+            <div class="stat-item"><span class="stat-label">平均准确率</span><span class="stat-value accent" id="statAvgAcc">0%</span></div>
+            <div class="stat-item"><span class="stat-label">最高CPM</span><span class="stat-value accent" id="statMaxCpm">0</span></div>
+            <div class="stat-item"><span class="stat-label">总错误数</span><span class="stat-value" id="statErrors">0</span></div>
+          </div>
+        </div>
+        <div class="main-content">
+          <div class="filter-section">
+            <div class="filter-row"><span class="filter-label">分类:</span><div class="filter-tags" id="categoryFilter"></div></div>
+            <div class="filter-row"><span class="filter-label">难度:</span><div class="filter-tags" id="difficultyFilter"></div></div>
+          </div>
+          <div class="snippet-grid" id="snippetGrid"></div>
+        </div>
       </div>
-      <div class="progress-section" id="progressBar"></div>
-      <div class="snippet-grid" id="snippetGrid"></div>
     </div>
     <div id="githubTab" style="display:none">
       <div class="github-input">
@@ -4240,7 +4268,7 @@ function initTheme() {
 
 function init() {
   initTheme();
-  renderFilters(); renderSnippets(); renderKeyboard(); loadRepoHistory(); renderProgress();
+  renderFilters(); renderSnippets(); renderKeyboard(); loadRepoHistory(); renderProgress(); renderStats();
   const input = document.getElementById('hiddenInput');
   input.addEventListener('input', handleInput);
   input.addEventListener('keydown', handleKeyDown);
@@ -4329,6 +4357,35 @@ function renderProgress() {
     <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
     ${catHtml}
   </div>`;
+}
+
+function renderStats() {
+  const history = getHistory();
+  if (history.length === 0) {
+    document.getElementById('statCount').textContent = '0';
+    document.getElementById('statChars').textContent = '0';
+    document.getElementById('statTime').textContent = '0分';
+    document.getElementById('statAvgCpm').textContent = '0';
+    document.getElementById('statAvgAcc').textContent = '0%';
+    document.getElementById('statMaxCpm').textContent = '0';
+    document.getElementById('statErrors').textContent = '0';
+    return;
+  }
+  const count = history.length;
+  const totalChars = history.reduce((s,h) => s + (h.cpm * h.time / 60), 0);
+  const totalTime = history.reduce((s,h) => s + h.time, 0);
+  const avgCpm = Math.round(history.reduce((s,h) => s + h.cpm, 0) / count);
+  const avgAcc = Math.round(history.reduce((s,h) => s + h.acc, 0) / count);
+  const maxCpm = Math.max(...history.map(h => h.cpm));
+  const totalErrors = history.reduce((s,h) => s + (h.errors || 0), 0);
+  const mins = Math.floor(totalTime / 60);
+  document.getElementById('statCount').textContent = count;
+  document.getElementById('statChars').textContent = Math.round(totalChars);
+  document.getElementById('statTime').textContent = mins >= 60 ? Math.floor(mins/60)+'时'+(mins%60)+'分' : mins+'分';
+  document.getElementById('statAvgCpm').textContent = avgCpm;
+  document.getElementById('statAvgAcc').textContent = avgAcc + '%';
+  document.getElementById('statMaxCpm').textContent = maxCpm;
+  document.getElementById('statErrors').textContent = totalErrors;
 }
 
 function renderSnippets() {
@@ -4720,6 +4777,7 @@ function finishPractice() {
     saveHistory(record);
     saveBest(currentSnippetId, record);
     renderProgress();
+    renderStats();
   }
 }
 
